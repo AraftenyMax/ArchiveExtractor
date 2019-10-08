@@ -27,6 +27,11 @@ namespace ConsoleApp1
                 Console.WriteLine("Passed path is empty. There\'s nothing to delete");
                 return;
             }
+            if (!Directory.Exists(_ExtractedPath))
+            {
+                Console.WriteLine("Extracted folder magically disappeared. No need to perform cleanup.");
+                return;
+            }
             Directory.Delete(_ExtractedPath, true);
             _ExtractedPath = "";
         }
