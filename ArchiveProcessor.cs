@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace ConsoleApp1
@@ -13,12 +14,30 @@ namespace ConsoleApp1
             ArchiveRetriever = archiveRetriever;
             FileProcessor = fileProcessor;
         }
-        public void ProcessArchive(string PathToFolder)
+        public void ProcessArchive(string PathToArchive, string DestinationPath)
         {
-            var ArchiveFiles = ArchiveRetriever.RetrieveArchive(PathToFolder);
-            foreach(string PathToFile in ArchiveFiles)
+            try
             {
-                FileProcessor.ProcessFile(PathToFile);
+                var ArchiveFiles = ArchiveRetriever.RetrieveArchive(PathToArchive, DestinationPath, FileProcessor.ResolveRule);
+                foreach (string PathToFile in ArchiveFiles)
+                {
+                    FileProcessor.ProcessFile(PathToFile);
+                }
+            }catch(ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch(FileNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch(InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                ArchiveRetriever.DeleteArchive();
             }
         }
     }

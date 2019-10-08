@@ -10,6 +10,6 @@ namespace ConsoleApp1
         {
             get;
         }
-        bool ProcessFile(string filename);
+        void ProcessFile(string PathToFile);
     }
 }

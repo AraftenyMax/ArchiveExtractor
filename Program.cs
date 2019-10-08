@@ -6,28 +6,30 @@ using System.Reflection;
 namespace ConsoleApp1
 {
     // WorkItem implicitly inherits from the Object class.
-    class Myclass
-    {
-        private string data = "Data";
-        private string Data()
-        {
-            return data;
-        }
-    }
     class Program
     {
-
-
         static void Main()
         {
-            Myclass cls = new Myclass();
-            MethodInfo mthd = cls.GetType().GetMethod("Data", BindingFlags.NonPublic | BindingFlags.Instance);
-            var data = mthd.Invoke(cls, new object[] { });
-            Console.WriteLine(data);
+            string prompt = "y";
+            while (prompt != "n")
+            {
+                try
+                {
+                    Console.WriteLine("Enter please source folder path: ");
+                    string sourcePath = Console.ReadLine();
+                    //string sourcePath = @"D:\Book1.zip";
+                    //string destPath = @"D:\Book4";
+                    Console.WriteLine("Enter please destionation folder path: ");
+                    string destPath = Console.ReadLine();
+                    ArchiveProcessor processor = ArchiveProcessorFabric.Create("*.csv");
+                    processor.ProcessArchive(sourcePath, destPath);
+                }
+                finally
+                {
+                    Console.WriteLine("Do want to continue? (y/n)");
+                    prompt = Console.ReadLine();
+                }
+            }
         }
     }
-    /* Output:
-        1 - Fix Bugs
-        2 - Change the Design of the Base Class
-    */
 }
